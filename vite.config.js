@@ -9,7 +9,7 @@ export default defineConfig({
     // 🧠 ИСПРАВЛЕНО: Привязали PWA-манифест к гарантированно существующей иконке favicon.ico
     VitePWA({
       registerType: 'autoUpdate', 
-      includeAssets: ['favicon.ico'],
+      includeAssets: ['favicon.svg'],
       manifest: {
         name: 'Smart Flashcards Pro',
         short_name: 'Flashcards',
@@ -20,12 +20,12 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'favicon.ico',
+            src: 'favicon.svg',
             sizes: '64x64 32x32 24x24 16x16',
             type: 'image/x-icon'
           },
           {
-            src: 'favicon.ico',
+            src: 'favicon.svg',
             sizes: '192x192',
             type: 'image/x-icon',
             purpose: 'any maskable'
