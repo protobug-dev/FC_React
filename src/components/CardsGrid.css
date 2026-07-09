@@ -1,0 +1,93 @@
+/* ==========================================================================
+   CARDS GRID & 3D WORD CARDS (Изолированная сетка карточек)
+   ========================================================================== */
+
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+    gap: 20px; 
+    width: 100%; 
+}
+
+.card-container { 
+    perspective: 1000px; 
+    min-height: 270px; 
+    width: 100%; 
+    display: flex; 
+}
+
+.card { 
+    width: 100%; 
+    position: relative; 
+    transform-style: preserve-3d; 
+    transition: transform 0.6s; 
+    cursor: pointer; 
+    display: flex; 
+}
+
+.card.flipped { 
+    transform: rotateY(180deg); 
+}
+
+.card-front, .card-back { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    background-color: var(--card-bg); 
+    border-radius: 14px; 
+    padding: 18px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
+    border: 1px solid var(--border-color); 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+.card-back { 
+    transform: rotateY(180deg); 
+    background-color: #fbfcfd; 
+}
+
+.card-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 32px; }
+.card-header-tags { display: flex; gap: 4px; }
+.tag-mini { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+.tag-lvl { color: #3b82f6; background-color: #eff6ff; border: 1px solid rgba(59, 130, 246, 0.1); }
+.tag-pos { color: #6366f1; background-color: #eef2ff; border: 1px solid rgba(99, 102, 241, 0.1); }
+.tag-topic { color: #4b5563; background-color: #f3f4f6; border: 1px solid rgba(75, 85, 99, 0.1); }
+.card-content { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; width: 100%; }
+.main-card-word-row { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+.main-card-word { font-size: 26px; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; line-height: 1.2; }
+.main-card-word.target-translation { color: #0f172a; }
+.audio-btn.inline-audio { padding: 2px 6px; font-size: 14px; background-color: var(--secondary-color); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; }
+.card-example-box { font-size: 15px; font-weight: 500; color: #475569; font-style: italic; line-height: 1.5; background-color: #f8fafc; border-left: 3px solid #cbd5e1; padding: 8px 12px; border-radius: 4px; width: 100%; text-align: left; }
+.card-example-box.translation-box { color: #64748b; background-color: #f1f5f9; border-left: 3px solid #94a3b8; font-weight: normal; }
+.card-footer-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+.card-stats { display: flex; gap: 8px; font-size: 12px; font-weight: bold; }
+.stat-ok { color: var(--success-color); }
+.stat-fail { color: var(--danger-color); }
+.card-toolbar { display: flex; gap: 4px; }
+.icon-btn { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background-color: var(--secondary-color); border: 1px solid var(--border-color); font-size: 11px; padding: 0; cursor: pointer; }
+.card.due-card .card-front { border: 1.5px solid #f1c40f; }
+.card.archived-card .card-front { border: 2px solid #2ecc71; background-color: #f8fff9; opacity: 0.6; }
+.lvl-badge { display: flex; align-items: center; justify-content: center; width: 30px; height: 22px; border-radius: 5px; color: white; font-size: 12px; font-weight: 900; }
+.lvl-badge-1 { background: linear-gradient(135deg, #a5b4fc, #6366f1); } 
+.lvl-badge-2 { background: linear-gradient(135deg, #f472b6, #ec4899); } 
+.lvl-badge-3 { background: linear-gradient(135deg, #38bdf8, #0284c7); } 
+.lvl-badge-4 { background: linear-gradient(135deg, #2dd4bf, #0d9488); } 
+.lvl-badge-5 { background: linear-gradient(135deg, #c084fc, #9333ea); } 
+.master-badge { background: linear-gradient(135deg, #34d399, #059669); color: white; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 5px; text-transform: uppercase; }
+
+.desktop-only-add-card { 
+    display: flex; 
+}
+
+@media (max-width: 768px) {
+    .desktop-only-add-card { 
+        display: none !important; 
+    }
+    .grid { 
+        grid-template-columns: 1fr; 
+        gap: 14px; 
+    }
+}

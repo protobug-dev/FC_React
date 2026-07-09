@@ -1,0 +1,223 @@
+/* ==========================================================================
+   MONOLITHIC CONTROL PANEL WITH PERFECT DROPDOWN GEOMETRY (ИСПРАВЛЕНО)
+   ========================================================================== */
+
+/* Единая строка управления */
+.filter-zone {
+    display: flex; 
+    flex-wrap: nowrap; 
+    gap: 16px; 
+    background-color: var(--card-bg);
+    padding: 12px 16px; 
+    border-radius: 12px; 
+    margin-bottom: 25px; 
+    align-items: center; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+    width: 100%;
+    border: 1px solid var(--border-color);
+}
+
+.btn-label-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+}
+
+/* Все элементы панели имеют ОДИНАКОВУЮ ширину на ПК */
+.play-action-group,
+.minimal-add-card-btn,
+.lesson-size-inline-group,
+.data-sync-menu-container {
+    width: 230px !important; 
+    height: 44px !important;
+    flex-shrink: 0;
+}
+
+/* 🧠 ИСПРАВЛЕНО: Явно закрепляем relative для контейнера на ПК, чтобы меню не улетало в центр сайта */
+.data-sync-menu-container {
+    position: relative !important;
+}
+
+/* 1. КНОПКА PLAY С ОБЪЁМНЫМ ТРЕУГОЛЬНИКОМ ВНУТРИ */
+button.success-btn {
+    width: 100% !important;
+    height: 100% !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ebfcf0 !important; 
+    border: 1px solid rgba(46, 204, 113, 0.3) !important;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+button.success-btn:hover {
+    background-color: #dbfad0 !important;
+    border-color: var(--success-color) !important;
+}
+button.success-btn::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 16px solid var(--success-color); 
+    filter: drop-shadow(0px 2.5px 0px #1e7e43); 
+    transform: translateX(2px); 
+}
+
+/* 2. КНОПКА ДОБАВЛЕНИЯ СЛОВА */
+.minimal-add-card-btn {
+    background-color: #ebf3fc;
+    color: var(--primary-color);
+    border: 1px solid rgba(74, 144, 226, 0.2);
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.minimal-add-card-btn:hover {
+    background-color: #e1effe;
+    border-color: var(--primary-color);
+}
+
+/* 3. СЕЛЕКТОР КОЛИЧЕСТВА КАРТОЧЕК */
+.lesson-size-inline-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.lesson-size-icon { font-size: 16px; }
+
+.lesson-size-inline-group select {
+    border: 1px solid #cbd5e1 !important; 
+    background-color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 800 !important; 
+    color: var(--primary-color) !important; 
+    outline: none;
+    cursor: pointer;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-align: center;
+    min-width: 45px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    transition: border-color 0.2s;
+}
+.lesson-size-inline-group select:hover {
+    border-color: var(--primary-color) !important;
+}
+
+/* 4. КНОПКА ХРАНЕНИЯ И ЕЕ АВТОНОМНЫЙ ВЫПАДАЮЩИЙ СПИСОК */
+.data-sync-toggle-btn {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.data-sync-toggle-btn:hover { background-color: var(--secondary-color); }
+
+/* Выпадающее меню Хранения на ПК теперь строго центрировано под кнопкой 📦 */
+.data-sync-dropdown {
+    display: none;
+    position: absolute;
+    width: 180px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 48px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color); 
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06); 
+    z-index: 1600;
+    overflow: hidden;
+}
+.data-sync-dropdown.active { display: block; }
+
+.data-sync-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: background-color 0.2s, color 0.2s;
+}
+.data-sync-dropdown button:hover { 
+    background-color: #faf5ff; 
+    color: #6b21a8;
+}
+
+/* ==========================================================================
+   ⚡ АДАПТИВНОСТЬ ДЛЯ СМАРТФОНОВ
+   ========================================================================== */
+@media (max-width: 768px) {
+    .filter-zone { 
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap; 
+        gap: 8px; 
+        padding: 8px 10px; 
+        margin-bottom: 20px;
+    }
+    
+    .play-action-group,
+    .minimal-add-card-btn,
+    .lesson-size-inline-group,
+    .data-sync-menu-container {
+        flex: 1; 
+        width: auto !important; 
+        height: 42px !important;
+    }
+    
+    .btn-label-text {
+        display: none;
+    }
+    
+    .minimal-add-card-btn,
+    .lesson-size-inline-group,
+    .data-sync-toggle-btn {
+        padding: 0;
+        justify-content: center;
+    }
+
+    button.success-btn {
+        width: 100% !important;
+        padding: 0;
+    }
+    button.success-btn::before {
+        margin-right: 0;
+    }
+
+    /* На телефонах отменяем центрирование и изящно прижимаем лавандовое меню к правому краю */
+    .data-sync-dropdown {
+        left: auto !important;
+        right: 0 !important;
+        transform: none !important; 
+        width: 170px !important;
+        border-color: #c084fc; 
+    }
+}

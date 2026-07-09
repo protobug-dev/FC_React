@@ -1,0 +1,115 @@
+/* ==========================================
+   CUSTOM COMBOBOXES & FULLSCREEN MOBILE SELECT
+   ========================================== */
+.custom-select-container { 
+    position: relative; 
+    min-width: 130px; 
+}
+
+.custom-select-trigger { 
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 7px 12px; 
+    font-size: 13px; 
+    font-weight: 600; 
+    color: #4a90e2; 
+    background-color: #ebf3fc; 
+    border: 1px solid rgba(74, 144, 226, 0.2); 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.custom-select-trigger:hover { 
+    background-color: #e1effe; 
+    border-color: #4a90e2; 
+}
+
+.custom-select-arrow { 
+    font-size: 9px; 
+    color: #4a90e2; 
+    margin-left: 6px; 
+}
+
+/* Стандартный ПК-вывод выпадающего списка */
+.custom-select-options { 
+    position: absolute; 
+    top: calc(100% + 5px); 
+    left: 0; 
+    width: 100%; 
+    background-color: var(--card-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 6px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    z-index: 1500; /* Самый верхний уровень */
+    max-height: 200px; 
+    overflow-y: auto; 
+}
+
+.custom-select-option { 
+    padding: 10px 14px; 
+    font-size: 13px; 
+    font-weight: 500; 
+    color: var(--text-color); 
+    cursor: pointer; 
+    text-align: left; 
+    transition: background-color 0.15s, color 0.15s;
+}
+.custom-select-option:hover { 
+    background-color: #f0f4f9; 
+    color: #4a90e2; 
+}
+
+/* ⚡ ИСПРАВЛЕНО: ТРАНСФОРМАЦИЯ В ПОЛНОЭКРАННОЕ СМАРТФОН-МЕНЮ */
+@media (max-width: 768px) {
+    /* На телефонах список вариантов отрывается от кнопки и перекрывает экран */
+    .custom-select-options {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        background-color: rgba(255, 255, 255, 0.98) !important; /* Белоснежный оверлей */
+        z-index: 2000 !important; /* Перекрывает даже шторку */
+        padding: 40px 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        overflow-y: auto !important; /* Правильный внутренний скролл */
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Заголовок-подсказка внутри мобильного полноэкранного списка */
+    .custom-select-options::before {
+        content: "Выберите параметр:";
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        color: #94a3b8;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Крупные, жирные мобильные элементы списка под палец */
+    .custom-select-option {
+        padding: 16px 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        background-color: #f8fafc !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px !important;
+        text-align: center !important;
+        color: var(--text-color) !important;
+    }
+    .custom-select-option:hover, 
+    .custom-select-option:active {
+        background-color: #ebf3fc !important;
+        color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+    }
+}

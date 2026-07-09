@@ -1,0 +1,218 @@
+/* ==========================================
+   1. БАЗОВЫЙ БЛОК ТРЕНИРОВОЧНОГО ОКНА (УРОК)
+   ========================================== */
+.test-box { 
+    width: 100%;
+    max-width: 550px; 
+    margin: 40px auto; 
+    text-align: center; 
+    padding: 30px; 
+    background-color: var(--card-bg); 
+    border-radius: 12px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+    border: 1px solid var(--border-color); 
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    height: auto; 
+}
+
+.test-exercise-label { 
+    font-size: 11px; 
+    font-weight: bold; 
+    color: #94a3b8; 
+    margin: 5px 0; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
+.test-word { 
+    font-size: 32px; 
+    font-weight: 800; 
+    color: var(--text-color); 
+    margin-bottom: 5px; 
+    line-height: 1.2;
+}
+
+.test-audio-btn { 
+    background: none; 
+    font-size: 20px; 
+    padding: 5px 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    border: 1px solid var(--border-color); 
+    width: fit-content;
+    margin: 0 auto;
+}
+.test-audio-btn:hover { background-color: var(--secondary-color); }
+
+.test-input { 
+    width: 100%; 
+    max-width: 380px; 
+    padding: 12px; 
+    font-size: 16px; 
+    font-weight: 600; 
+    border: 2px solid var(--border-color); 
+    border-radius: 8px; 
+    text-align: center; 
+    outline: none; 
+    margin: 5px auto 10px auto; 
+}
+.test-input:focus { border-color: var(--primary-color); }
+
+.choices-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    margin: 10px auto !important;
+}
+
+.choice-btn { 
+    padding: 14px !important; 
+    font-size: 15px !important; 
+    font-weight: 600 !important; 
+    background-color: #f8fafc !important; 
+    border: 1px solid var(--border-color) !important; 
+    border-radius: 8px !important; 
+    cursor: pointer !important; 
+    color: var(--text-color) !important;
+    transition: background-color 0.2s, color 0.2s; 
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+.choice-btn:hover { background-color: #e2e8f0 !important; color: var(--primary-color) !important; }
+
+/* Шкала прогресса урока */
+.progress-container { width: 100%; background-color: var(--secondary-color); height: 8px; border-radius: 10px; margin-bottom: 15px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, #4a90e2, #3498db); width: 0%; transition: width 0.3s ease; }
+.feedback { margin-top: 5px; font-weight: bold; font-size: 15px; min-height: 22px; }
+.feedback.success { color: var(--success-color); }
+.feedback.error { color: var(--danger-color); }
+
+/* Управляющие кнопки обычного раунда */
+button.primary-btn { background-color: var(--primary-color); color: white; padding: 11px 24px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin: 0 auto; width: fit-content; font-size: 14px; }
+button.primary-btn:hover { opacity: 0.95; }
+
+button.secondary {
+    background-color: var(--secondary-color); color: var(--text-color); border: 1px solid var(--border-color);
+    padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer;
+    transition: background-color 0.2s; margin: 5px auto 0 auto; width: fit-content;
+}
+button.secondary:hover { background-color: #e2e4eb; }
+
+/* ==========================================
+   2. БОЛЬШОЙ ЭКРАН РАЗБОРА СЛОВА (WordReviewScreen)
+   ========================================== */
+.review-screen-layout { max-width: 600px; padding: 0; overflow: hidden; display: flex; flex-direction: column; gap: 0 !important; }
+.review-status-banner { padding: 16px; font-size: 16px; font-weight: bold; color: white; text-align: center; width: 100%; }
+.review-status-banner.success { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.review-status-banner.error { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.review-card-body { padding: 30px; text-align: left; width: 100%; }
+.review-word-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; }
+.review-main-word { font-size: 36px; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; }
+.review-translation-label { font-size: 12px; font-weight: bold; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px; }
+.review-main-translation { font-size: 24px; font-weight: 700; color: #4a90e2; margin-bottom: 25px; }
+.review-example-container { background-color: #f8fafc; border-left: 4px solid #cbd5e1; padding: 14px 18px; border-radius: 4px; }
+.example-title { font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+.example-text { font-size: 16px; font-weight: 600; color: #334155; font-style: italic; line-height: 1.4; }
+.example-subtext { font-size: 14px; color: #64748b; margin-top: 4px; }
+.review-action-footer { display: flex; gap: 15px; padding: 20px 30px 30px 30px; background-color: #ffffff; width: 100%; }
+.review-action-footer button { flex: 1; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; }
+.secondary-hard-trigger { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; box-shadow: 0 4px 6px rgba(155, 89, 182, 0.15); transition: opacity 0.2s; }
+.secondary-hard-trigger:hover { opacity: 0.9; }
+
+/* ==========================================
+   3. ОБЛЕГЧЁННЫЙ ПАСТЕЛЬНЫЙ ХАРД-ДИЗАЙН (HardModeEngine)
+   ========================================== */
+.hard-mode-layout {
+    /* Нежный лавандово-пастельный фон вместо тёмной ночи */
+    background-color: #faf5ff !important; 
+    border: 2px solid #c084fc !important; 
+    /* Тёмно-пурпурный контрастный цвет текста */
+    color: #581c87 !important;
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.08) !important; 
+    padding: 30px !important;
+}
+
+.hard-badge-indicator { 
+    background-color: #f3e8ff; 
+    color: #6b21a8; 
+    font-size: 10px; 
+    font-weight: 800; 
+    padding: 4px 12px; 
+    border-radius: 20px; 
+    width: fit-content; 
+    margin: 0 auto 15px auto; 
+    border: 1px solid #d8b4fe; 
+    letter-spacing: 0.5px; 
+}
+
+.hard-step-label { font-size: 12px; font-weight: 700; color: #a855f7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.hard-target-word { font-size: 34px; font-weight: 900; color: #3b0764; margin-bottom: 25px; }
+
+/* Пастельно-светлые кнопки выбора в Хард-сценарии */
+.hard-mode-layout .choice-btn { 
+    background-color: #ffffff; 
+    border: 1px solid #e9d5ff; 
+    color: #581c87; 
+    transition: background-color 0.2s, border-color 0.2s; 
+}
+.hard-mode-layout .choice-btn:hover { 
+    background-color: #f3e8ff; 
+    color: #6b21a8; 
+    border-color: #c084fc; 
+}
+
+/* Поле ввода в Хард-режиме */
+.hard-mode-layout .test-input { 
+    background-color: #ffffff; 
+    border: 2px solid #e9d5ff; 
+    color: #3b0764; 
+}
+.hard-mode-layout .test-input:focus { 
+    border-color: #a855f7; 
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1); 
+}
+
+/* Баннеры успеха и ошибки в Хард-спринте */
+.hard-feedback-banner { padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; text-align: center; width: 100%; margin-bottom: 15px; }
+.hard-feedback-banner.success { background-color: rgba(46, 204, 113, 0.1); color: #16a34a; border: 1px solid #2ecc71; }
+.hard-feedback-banner.error { background-color: rgba(231, 76, 60, 0.1); color: #dc2626; border: 1px solid #e74c3c; }
+
+/* Итоговая карточка результатов Хард-спринта */
+.hard-summary-card { 
+    background-color: #ffffff; 
+    border: 1px solid #e9d5ff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin: 20px 0; 
+    width: 100%; 
+    text-align: left; 
+}
+.hard-word-display { font-size: 18px; color: #3b0764; margin-bottom: 8px; }
+.hard-status-text.success { color: #16a34a; font-weight: bold; font-size: 15px; }
+.hard-status-text.error { color: #dc2626; font-weight: bold; font-size: 15px; }
+
+.hard-action-footer { display: flex; gap: 12px; margin-top: 15px; width: 100%; }
+.hard-action-footer button { flex: 1; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; border: none; }
+
+/* Фирменная фиолетовая кнопка */
+button.purple-btn { 
+    background: linear-gradient(135deg, #9b59b6, #8e44ad); 
+    color: white; 
+    box-shadow: 0 4px 6px rgba(155, 89, 182, 0.15); 
+    border-radius: 6px; 
+}
+
+/* Второстепенная лавандовая кнопка */
+button.secondary-hard { 
+    background-color: #f3e8ff; 
+    color: #6b21a8; 
+    border: 1px solid #d8b4fe; 
+}
+button.secondary-hard:hover { 
+    background-color: #e9d5ff; 
+}

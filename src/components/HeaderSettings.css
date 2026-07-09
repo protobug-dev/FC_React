@@ -1,0 +1,113 @@
+/* ==========================================================================
+   HEADER & SETTINGS DROPDOWN (Финальная монолитная версия)
+   ========================================================================== */
+
+.app-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 25px; 
+    width: 100%; 
+}
+
+.settings-menu-container { 
+    position: relative; 
+}
+
+.settings-toggle-btn { 
+    background: none; 
+    border: none; 
+    font-size: 28px; 
+    cursor: pointer; 
+    transition: transform 0.3s ease; 
+}
+
+.settings-toggle-btn:hover { 
+    transform: rotate(45deg); 
+}
+
+.settings-dropdown {
+    display: none; 
+    position: absolute; 
+    right: 0; 
+    top: 40px; 
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    z-index: 1100; /* Поднимаем выше шторки */
+    min-width: 190px; 
+    overflow: hidden;
+}
+
+.settings-dropdown.active { 
+    display: block; 
+}
+
+/* Кнопка создания слова внутри шестерёнки. На ПК ОНА СКРЫТА */
+.settings-create-card-btn {
+    display: none !important;
+}
+
+.settings-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+}
+
+.settings-dropdown button:hover { 
+    background-color: var(--secondary-color); 
+}
+
+.settings-item { 
+    padding: 12px 16px; 
+    font-size: 13px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+    text-align: left;
+}
+
+.settings-item label {
+    font-weight: bold;
+    color: #64748b;
+}
+
+.settings-item select { 
+    width: 100%; 
+    padding: 6px; 
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: #f8fafc;
+    cursor: pointer;
+}
+
+/* ⚡ МОБИЛЬНАЯ МОРФОЛОГИЯ ШАПКИ (Экран смартфона) */
+@media (max-width: 768px) {
+    /* Полностью намертво скрываем заголовок Smart Flashcards Pro на мобилках */
+    .app-header h1 {
+        display: none !important;
+    }
+    /* Саму обертку шапки убираем из потока, так как шестерёнка переехала ниже */
+    .app-header {
+        display: none !important;
+    }
+    /* Включаем кнопку добавления слова внутри шестерёнки только на мобилках */
+    .settings-create-card-btn {
+        display: block !important;
+        background-color: #ebf3fc !important; 
+        color: var(--primary-color) !important;
+        border-bottom: 1px solid var(--border-color) !important;
+    }
+    .settings-create-card-btn:hover {
+        background-color: #e1effe !important;
+    }
+}
