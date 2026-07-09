@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import './index.css'; 
 import './components/HeaderSettings.css';
 import './components/ComboBox.css';       
-import './components/FilterCardsGrid.css';
-import './components/CardsGrid.css';
+import './components/FilterCardsGrid.css';  
+import './components/CardsGrid.css'; 
 
 import FlashCard from './components/FlashCard';
 import CardModal from './components/CardModal';
@@ -48,8 +48,26 @@ function App() {
     return () => document.removeEventListener('click', handleClickOutsideSync);
   }, []);
 
-  // Сортировка слов на главном экране по алфавиту
-  const sortedCards = [...cards].sort((a, b) => 
+  // УМНАЯ ФИЛЬТРАЦИЯ ГЛАВНОГО ЭКРАНА (ФОКУС ИЗУЧЕНИЯ)
+  const focusedCards = cards.filter(card => {
+    const currentLvl = card.reviewLvl || 1;
+    
+    // Намертво исключаем полностью выученные слова (Архив 6 уровня)
+    if (currentLvl === 6) return false;
+
+    // Условие А: Карточки, которые предстоит повторить прямо сейчас (срок наступил)
+    const now = new Date();
+    const reviewDate = card.nextReview ? new Date(card.nextReview) : new Date();
+    const isDueNow = reviewDate <= now;
+
+    // Условие Б: Карточки, которые уже находятся в активном процессе изучения (уровни 2, 3, 4, 5)
+    const isAlreadyLearning = currentLvl > 1 && currentLvl < 6;
+
+    return isDueNow || isAlreadyLearning;
+  });
+
+  // Сортировка отфильтрованных слов на главном экране по алфавиту
+  const sortedCards = focusedCards.sort((a, b) => 
     a.word.toLowerCase().localeCompare(b.word.toLowerCase(), 'en')
   );
 
@@ -100,15 +118,22 @@ function App() {
     setIsSyncOpen(false);
   };
 
+  // ИСПРАВЛЕНО: Надёжный метод импорта с жестким извлечением Blob-файла из массива [0]
   const handleImport = (event) => {
-    const file = event.target.files;
-    if (!file) return;
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
+    const fileToRead = files[0]; // Забираем чистый файл из события
     const reader = new FileReader();
+    
     reader.onload = (e) => {
       try {
         const importedData = JSON.parse(e.target.result);
-        if (importedData.cards && Array.isArray(importedData.cards)) {
+        if (importedData && Array.isArray(importedData)) {
+          setCards(importedData);
+          StorageService.saveCards(importedData);
+          alert('Данные успешно импортированы! 🎉');
+        } else if (importedData.cards && Array.isArray(importedData.cards)) {
           setCards(importedData.cards);
           StorageService.saveCards(importedData.cards);
           alert('Данные успешно импортированы! 🎉');
@@ -119,8 +144,11 @@ function App() {
         alert('Ошибка при чтении JSON файла.');
       }
     };
-    reader.readAsText(file);
+    reader.readAsText(fileToRead); // Скармливаем чистый Blob
     setIsSyncOpen(false);
+    
+    // Сбрасываем значение инпута, чтобы можно было загружать один и тот же файл подряд
+    event.target.value = '';
   };
 
   const handleFinishLesson = () => {
@@ -144,14 +172,15 @@ function App() {
       </button>
       <div className={`data-sync-dropdown ${isSyncOpen ? 'active' : ''}`}>
         <button onClick={handleExport}>💾 Экспорт данных (JSON)</button>
+        {/* Уникальный ID инпута для надежной загрузки файлов */}
         <input 
           type="file" 
-          id="importFileInput" 
+          id="panelImportFileInput" 
           accept=".json" 
           style={{ display: 'none' }} 
           onChange={handleImport} 
         />
-        <button onClick={() => document.getElementById('importFileInput').click()}>
+        <button onClick={() => document.getElementById('panelImportFileInput').click()}>
           📂 Импорт данных (JSON)
         </button>
       </div>
@@ -175,10 +204,10 @@ function App() {
             <h1>🎓 Smart Flashcards Pro</h1>
           </header>
 
-          {/* === СБАЛАНСИРОВАННАЯ ОДНОСТРОЧНАЯ ПАНЕЛЬ С КРУПНЫМ PLAY СЛЕНА === */}
+          {/* === УЛЬТРА-СБАЛАНСИРОВАННАЯ АДАПТИВНАЯ ПАНЕЛЬ С КРУПНЫМ PLAY === */}
           <div className="filter-zone">
             
-            {/* 1. КНОПКА PLAY С КРУПНЫМ ЗЕЛЕНЫМ 3D-ТРЕУГОЛЬНИКОМ (ТЕПЕРЬ ПЕРВАЯ СЛЕВА) */}
+            {/* 1. КНОПКА PLAY С КРУПНЫМ ЗЕЛЕНЫМ 3D-ТРЕУГОЛЬНИКОМ (ПЕРВАЯ СЛЕВА) */}
             <div className="play-action-group" title="Запустить тренировку">
               <button className="success-btn" onClick={() => setIsLessonActive(true)}></button>
             </div>
@@ -216,6 +245,7 @@ function App() {
 
           {/* === СБАЛАНСИРОВАННАЯ СЕТКА КАРТОЧЕК СЛОВ === */}
           <div className="grid">
+            {/* На главный экран выводятся ТОЛЬКО отсортированные карточки из фокуса изучения */}
             {sortedCards.map((card) => {
               const realIndex = cards.indexOf(card);
               return (
